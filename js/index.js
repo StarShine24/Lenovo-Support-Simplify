@@ -15,9 +15,10 @@ async function getData(url,response_fun,fail_fun) {
   try {
     const response = await fetch(url, {mode: 'cors',
         headers: new Headers({
+            'Origin':'https://starshine24.github.io',
             'Content-Type': 'application/json',
             'Access-Control-Expose-Headers': '*',
-            'Access-Control-Allow-Origin':'*'
+            'Access-Control-Allow-Origin':'*',  
         })
     });
     if (!response.ok) {
