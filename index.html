@@ -9,6 +9,16 @@
     <!--<script src="js/xmlx.js"></script>-->
   </head>
   <body>
-    <script src="js/index.js"></script>
+    <div class="header">
+      <label for="getIdData">Input Serial ID</label>
+      <input type="text" name="getIdData" id="getIdData"/>
+      <button type="button" onclick="getAllData(document.getElementById('getIdData').value)">SUBMIT </button>
+    </div>
+    <div class="main">
+      <div class="left"></div>
+      <div class="center"></div>
+      <div class="right"></div>
+    </div>
   </body>
+  <script src="js/index.js"></script>
 </html>
