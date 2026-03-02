@@ -15,7 +15,7 @@ var link = (ID_Value,page)=>{
         }
     }   
 
-async function getData(url,response_fun,fail_fun) {
+async function getData(_id,_page,response_fun,fail_fun) {
   try {
     /*const response = await fetch(url, {mode: 'cors',
         headers: new Headers({
@@ -29,13 +29,14 @@ async function getData(url,response_fun,fail_fun) {
             'X-Requested-With':'XMLHttpRequest'
         })
     });*/
-    const response = await fetch(url, {mode: 'cors' });
+    const response = await fetch(link(_id,_page), {mode: 'cors' });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    const result = await response.json();
-    response_fun(result);
+    const result = await response;
+    console.log(result);
+    response_fun(_page=="serial"? await result.json():await result.body);
   } catch (error) {
     fail_fun(error.message);
   }
@@ -46,12 +47,26 @@ function writeElem(){
 }
 
 async function getAllData(id) {
-    await getData(link(id,"serial"), async(serialData)=>{
-            localStorage.setItem(id,serialData[0]);
-            await getData(link(serialData[0]['Id'].split("/",5).pop(),"model"), async(modelData)=>{
+    await getData(id,"serial", async(serialData)=>{
+            console.log(serialData[0]);
+            localStorage.setItem(id,JSON.stringify(serialData[0]));
+            await getData(serialData[0]['Id'].split("/",5).pop(),"model", async(modelData)=>{
                 GETDATA.modelData[serialData[0]['Id'].split("/",5).pop()]=modelData;
             },console.error);
             GETDATA.serialData[id]=serialData[0];
         },console.error).then(
     ); 
 }
+
+var getIDNames= async(id)=>
+    {
+        await getData(id,"serial", async(serialData)=>{
+            console.log(serialData[0]);
+            var elem = document.createElement("div");
+            var _p = document.createElement("p");
+            _p.innerText=serialData[0].Id;
+            elem.appendChild(_p);
+            document.getElementsByClassName("center")[0].appendChild(elem);
+        })
+    }
+//https://psref.lenovo.com/Detail/Legion_5_17ITH6H?M=82JM001LCK
