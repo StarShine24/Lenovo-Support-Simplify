@@ -67,6 +67,7 @@ var getIDNames= async(id)=>
             _p.innerText=serialData[0].Id;
             elem.appendChild(_p);
             document.getElementsByClassName("center")[0].appendChild(elem);
+            document.getElementsByClassName("center")[0].appendChild(document.createElement("br"));
         })
     }
 //https://psref.lenovo.com/Detail/Legion_5_17ITH6H?M=82JM001LCK
